@@ -14,6 +14,14 @@ export class FormComponent {
   public email = '';
 
   public onSubmit() {
+    if (!this.name || this.name.length < 2) {
+      alert('Invalid name');
+      return;
+    }
+    if (!this.email || !this.validateEmail(this.email)) {
+      alert('Invalid e-mail');
+      return;
+    }
     const user = {
       name: this.name,
       email: this.email,
@@ -21,5 +29,9 @@ export class FormComponent {
     this.submit.emit(user);
     this.name = '';
     this.email = '';
+  }
+  private validateEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 }
