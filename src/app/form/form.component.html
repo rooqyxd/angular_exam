@@ -1,0 +1,12 @@
+<h1>Welcome!</h1>
+<div class="wrapper">
+  <form (ngSubmit)="onSubmit()">
+    <label for="name">Name:</label>
+    <input [(ngModel)]="name" type="text" name="name" placeholder="Name" />
+    <label for="email">Email:</label>
+    <input [(ngModel)]="email" type="email" name="email" placeholder="E-mail" />
+    <button type="submit">Submit</button>
+  </form>
+  <p></p>
+  <p></p>
+</div>
