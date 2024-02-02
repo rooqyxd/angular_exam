@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../user';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgIf],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
@@ -13,7 +13,7 @@ export class FormComponent {
   @Output() public submit = new EventEmitter<User>();
   public name = '';
   public email = '';
-
+  public user: User | null = null;
   public onSubmit() {
     if (!this.name || this.name.length < 2) {
       alert('Invalid name');
@@ -27,6 +27,8 @@ export class FormComponent {
       name: this.name,
       email: this.email,
     };
+    this.user = user;
+    console.log(user);
     this.submit.emit(user);
     this.name = '';
     this.email = '';

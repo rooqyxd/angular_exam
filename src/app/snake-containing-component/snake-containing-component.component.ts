@@ -1,7 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { NgxSnakeComponent, NgxSnakeModule } from 'ngx-snake';
 import { HotkeysService } from '@ngneat/hotkeys';
 import { CommonModule } from '@angular/common';
+import { User } from '../user';
 @Component({
   selector: 'app-snake-containing-component',
   standalone: true,
@@ -11,6 +12,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './snake-containing-component.component.scss',
 })
 export class SnakeContainingComponentComponent {
+  @Input() user: User | null = null;
+  public points: number = 0;
+
   public bw = false;
 
   @ViewChild('game')
@@ -35,40 +39,11 @@ export class SnakeContainingComponentComponent {
       .subscribe(() => this._snake.actionRight());
   }
   public onGrow() {
+    this.points += 1;
     console.log('grow');
   }
 
   public onGameOver() {
     alert('game over');
   }
-
-  // private _addHotkeys() {
-  //   this._hotkeysService.add(
-  //     new Hotkey('up', (event: KeyboardEvent): boolean => {
-  //       this._snake.actionUp();
-  //       return false; // Prevent bubbling
-  //     })
-  //   );
-
-  //   this._hotkeysService.add(
-  //     new Hotkey('left', (event: KeyboardEvent): boolean => {
-  //       this._snake.actionLeft();
-  //       return false; // Prevent bubbling
-  //     })
-  //   );
-
-  //   this._hotkeysService.add(
-  //     new Hotkey('down', (event: KeyboardEvent): boolean => {
-  //       this._snake.actionDown();
-  //       return false; // Prevent bubbling
-  //     })
-  //   );
-
-  //   this._hotkeysService.add(
-  //     new Hotkey('right', (event: KeyboardEvent): boolean => {
-  //       this._snake.actionRight();
-  //       return false; // Prevent bubbling
-  //     })
-  //   );
-  // }
 }
