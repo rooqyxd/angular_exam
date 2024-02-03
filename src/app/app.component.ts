@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormComponent } from './form/form.component';
@@ -20,7 +20,7 @@ import { SnakeContainingComponentComponent } from './snake-containing-component/
 })
 export class AppComponent {
   showSnake = false;
-  user: User | null = null;
+  @Input() public user: User | null = null;
 
   onShowSnake(event: boolean) {
     this.showSnake = event;

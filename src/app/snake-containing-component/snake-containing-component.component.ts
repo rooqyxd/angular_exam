@@ -17,7 +17,7 @@ import { FormComponent } from '../form/form.component';
 export class SnakeContainingComponentComponent {
   @ViewChild('game')
   private _snake!: NgxSnakeComponent;
-@Input() user: User | null = null;
+  @Input() user: User | null = null;
   public points: number = 0;
   public scores: { score: number; time: number }[] = [];
   public gameStartTime: number | null = null;
@@ -45,9 +45,7 @@ export class SnakeContainingComponentComponent {
     console.log(this.user);
   }
   public startGame() {
-    console.log(this.user);
-    console.log(`pokaz this.user.name ${this.user?.name}`);
-    console.log(`pokaz this.user.email ${this.user?.email}`);
+    // console.log(this.user);
 
     this._snake.actionStart();
     this.gameStartTime = performance.now();

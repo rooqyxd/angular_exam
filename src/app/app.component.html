@@ -4,7 +4,7 @@
     (showSnakeEvent)="onShowSnake($event)"
   >
   </app-form>
-  <app-snake-containing-component *ngIf="showSnake" [user]="user">
+  <app-snake-containing-component [user]="user" *ngIf="showSnake">
     ></app-snake-containing-component
   >
 </div>

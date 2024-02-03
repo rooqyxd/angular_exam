@@ -52,7 +52,7 @@
   </table>
   <div class="user-scores">
     <h2>User Highscores</h2>
-    <button (click)="showUser()"></button>
+    <button (click)="showUser()">show user</button>
     <ol>
       <li *ngFor="let score of scores">
         {{ user?.name }} scored: {{ score.score }} points in {{ score.time }}

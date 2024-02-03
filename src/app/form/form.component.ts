@@ -1,14 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  Output,
-  Input,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../user';
 import { CommonModule, NgIf } from '@angular/common';
-import { NgxSnakeComponent, NgxSnakeModule } from 'ngx-snake';
+import { NgxSnakeModule } from 'ngx-snake';
 @Component({
   selector: 'app-form',
   standalone: true,
@@ -19,7 +13,6 @@ import { NgxSnakeComponent, NgxSnakeModule } from 'ngx-snake';
 export class FormComponent {
   @Output() public submit = new EventEmitter<User>();
   @Output() public showSnakeEvent = new EventEmitter<boolean>();
-  @Input() pass!: () => void;
   public name = '';
   public email = '';
   public user: User | null = null;
@@ -38,7 +31,10 @@ export class FormComponent {
       email: this.email,
     };
     this.user = user;
-    console.log(user);
+    console.log(`name ${this.name} email ${this.email}`);
+    console.log(`user to ${user}`);
+    console.log(`this user to ${this.user}`);
+    console.log(`... user to ${{ ...user }}`);
     this.submit.emit(user);
     this.openSnake();
     this.name = '';
