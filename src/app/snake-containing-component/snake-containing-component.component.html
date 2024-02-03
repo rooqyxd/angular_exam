@@ -4,11 +4,12 @@
     [class.black-and-white]="bw"
     (foodEaten)="onGrow()"
     (gameOver)="onGameOver()"
+    [ngClass]="{ 'black-and-white': bw }"
   ></ngx-snake>
 
   <table class="controls">
     <tr>
-      <td><button (click)="game.actionStart()">Start</button></td>
+      <td><button (click)="startGame()">Start</button></td>
       <td><button (click)="game.actionStop()">Stop</button></td>
       <td><button (click)="game.actionReset()">Reset</button></td>
       <td></td>
@@ -40,13 +41,22 @@
     </tr>
     <tr>
       <td colspan="3">
-        <button *ngIf="!bw" class="bw" (click)="bw = true">Go B/W !</button>
+        <!-- <button *ngIf="!bw" class="bw" (click)="bw = true">Go B/W !</button>
         <button *ngIf="bw" class="colors" (click)="bw = false">
           <span class="green">no, </span>
           <span>back to</span>
           <span class="red">colors</span>
-        </button>
+        </button> -->
       </td>
     </tr>
   </table>
+  <div class="user-scores">
+    <h2>User Highscores</h2>
+    <button (click)="showUser()"></button>
+    <ol>
+      <li *ngFor="let score of scores">
+        {{ user?.name }} scored: {{ score.score }} points in {{ score.time }}
+      </li>
+    </ol>
+  </div>
 </div>

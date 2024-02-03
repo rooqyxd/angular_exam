@@ -6,3 +6,24 @@ button {
   padding: 0.5em 1em;
   width: 5em;
 }
+ngx-snake {
+  &.black-and-white {
+    ngx-snake-tile {
+      background: #ffffff;
+      &.free {
+        div {
+          background: #ffffff;
+        }
+      }
+
+      &.head,
+      &.tail,
+      &.food,
+      &.body {
+        div {
+          background: #000000;
+        }
+      }
+    }
+  }
+}
