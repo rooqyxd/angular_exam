@@ -5,7 +5,8 @@
     <input [(ngModel)]="name" type="text" name="name" placeholder="Name" />
     <label for="email">Email:</label>
     <input [(ngModel)]="email" type="email" name="email" placeholder="E-mail" />
-    <button type="submit">Start</button>
+    <button *ngIf="!isSnakeVisible" type="submit">Start game</button>
+    <button *ngIf="isSnakeVisible" (click)="closeSnake()">Close game</button>
   </form>
   <p>Let's play {{ user?.name }}</p>
 </div>
