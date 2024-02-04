@@ -20,11 +20,13 @@
       </select>
       <p>{{ gameDuration }}</p>
     </div>
-    <ul>
-      <li *ngFor="let move of gameHistory" class="moves">
-        {{ move }}
-      </li>
-    </ul>
+    <div class="list">
+      <ul class="moves">
+        <li *ngFor="let move of moveHistory">
+          {{ move.move }} {{ " at " }} {{ move.time }}sec.
+        </li>
+      </ul>
+    </div>
   </div>
   <ngx-snake
     #game

@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { User } from '../user';
 import { NgClass } from '@angular/common';
 import { FormComponent } from '../form/form.component';
+
 @Component({
   selector: 'app-snake-containing-component',
   standalone: true,
@@ -38,9 +39,10 @@ export class SnakeContainingComponentComponent {
   public gameDurationInSeconds: number = 0;
   public actualScore: number = 0;
   public gameStatus: string = 'Game not started yet';
-  public gameHistory: string[] = [];
   public isGameActive: boolean = false;
   public isGameOver: boolean = false;
+  public moveHistory: { move: string; time: number }[] = [];
+  public gameStopTime: number | null = null; //
   public bw = false;
   constructor(private hotkeys: HotkeysService) {
     this._addHotkeys();
@@ -65,15 +67,21 @@ export class SnakeContainingComponentComponent {
   }
   public startGame() {
     this.isGameActive = true;
-    if (this.gameDuration === 0) {
-      this.gameHistory = [];
-    }
     this.gameStatus = 'Game started';
+
+    if (this.gameStartTime === null) {
+      this.gameStartTime = performance.now();
+    } else if (this.gameStopTime !== null) {
+      const pauseDuration = performance.now() - this.gameStopTime;
+      this.gameStartTime += pauseDuration;
+    }
+
     this._snake.actionStart();
-    this.gameStartTime = performance.now();
-    this.gameDuration = 0;
     this.updateGameDuration();
-    this.gameHistory.push(this.gameStatus);
+    this.moveHistory.push({
+      move: 'Game started',
+      time: this.gameDuration,
+    });
   }
   private updateGameDuration() {
     if (this.gameStartTime !== null && this.isGameActive) {
@@ -85,7 +93,10 @@ export class SnakeContainingComponentComponent {
   public onGrow() {
     this.actualScore += 1;
     this.points += 1;
-    this.gameHistory.push('Got 1 point');
+    this.moveHistory.push({
+      move: 'Got 1 point',
+      time: this.gameDuration,
+    });
     console.log('grow');
   }
 
@@ -104,7 +115,10 @@ export class SnakeContainingComponentComponent {
       seconds: (this.gameDuration % 60) + 'sec.',
     };
     this.gameStatus = 'Game over';
-    this.gameHistory.push(this.gameStatus);
+    this.moveHistory.push({
+      move: 'Game stopped',
+      time: this.gameDuration,
+    });
     this.scores.push(gameResult);
     this.points = 0;
     this.gameDuration = 0;
@@ -114,16 +128,22 @@ export class SnakeContainingComponentComponent {
     this.gameStatus = 'Game reseted';
     this.points = 0;
     this.gameDuration = 0;
-    this.gameHistory.push(this.gameStatus);
     this._snake.actionReset();
+    this.gameStartTime = null;
+    this.moveHistory = [];
   }
   public onStop() {
     this.isGameActive = false;
     this.gameStatus = 'Game stopped';
-    this.gameHistory.push(this.gameStatus);
+    this.gameStopTime = performance.now();
     this._snake.actionStop();
+    this.moveHistory.push({
+      move: 'Game stopped',
+      time: this.gameDuration,
+    });
   }
   public exitGame() {
     this.changeShowSnake.emit(false);
+    this.onReset();
   }
 }
