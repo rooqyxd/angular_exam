@@ -1,7 +1,22 @@
 .wrapper {
   display: flex;
   gap: 2em;
+  .action-list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    max-height: 400px;
+    overflow-y: auto;
+    .labels{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2em;
+    }
+  }
 }
+
 button {
   padding: 0.5em 1em;
   width: 5em;
@@ -26,4 +41,10 @@ ngx-snake {
       }
     }
   }
+}
+.user-scores {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
 }

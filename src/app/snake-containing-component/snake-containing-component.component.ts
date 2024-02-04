@@ -19,9 +19,19 @@ export class SnakeContainingComponentComponent {
   private _snake!: NgxSnakeComponent;
   @Input() user: User | null = null;
   public points: number = 0;
-  public scores: { score: number; time: number }[] = [];
+  public scores: {
+    score: number;
+    time: number;
+    minutes: string;
+    seconds: string;
+  }[] = [];
   public gameStartTime: number | null = null;
   public gameDuration: number = 0;
+  public gameDurationInMinutes: number = 0;
+  public gameDurationInSeconds: number = 0;
+  public actualScore: number = 0;
+  public gameStatus: string = 'Game not started yet';
+  public gameHistory: string[] = [];
   public bw = false;
   constructor(private hotkeys: HotkeysService) {
     this._addHotkeys();
@@ -46,11 +56,13 @@ export class SnakeContainingComponentComponent {
   }
   public startGame() {
     // console.log(this.user);
-
+    this.gameHistory = [];
+    this.gameStatus = 'Game started';
     this._snake.actionStart();
     this.gameStartTime = performance.now();
     this.gameDuration = 0;
     this.updateGameDuration();
+    this.gameHistory.push(this.gameStatus);
   }
   private updateGameDuration() {
     if (this.gameStartTime !== null) {
@@ -60,7 +72,9 @@ export class SnakeContainingComponentComponent {
     }
   }
   public onGrow() {
+    this.actualScore += 1;
     this.points += 1;
+    this.gameHistory.push('Got 1 point');
     console.log('grow');
   }
 
@@ -73,11 +87,24 @@ export class SnakeContainingComponentComponent {
     const gameResult = {
       score: this.points,
       time: this.gameDuration,
+      minutes: Math.floor(this.gameDuration / 60) + 'min.',
+      seconds: (this.gameDuration % 60) + 'sec.',
     };
-
+    this.gameStatus = 'Game over';
+    this.gameHistory.push(this.gameStatus);
     this.scores.push(gameResult);
-    console.log('result to');
-    console.log(gameResult);
     this.points = 0;
+  }
+  public onReset() {
+    this.gameStatus = 'Game reseted';
+    this.points = 0;
+    this.gameDuration = 0;
+    this.gameHistory.push(this.gameStatus);
+    this._snake.actionReset();
+  }
+  public onStop() {
+    this.gameStatus = 'Game stopped';
+    this.gameHistory.push(this.gameStatus);
+    this._snake.actionStop();
   }
 }

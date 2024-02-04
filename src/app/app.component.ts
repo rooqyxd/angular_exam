@@ -28,5 +28,7 @@ export class AppComponent {
 
   onUserCreated(user: User) {
     this.user = user;
+    console.log(`w app ${this.user}`);
+    console.log(`w app user ${user}`);
   }
 }

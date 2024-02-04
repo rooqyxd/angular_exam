@@ -11,7 +11,7 @@ import { NgxSnakeModule } from 'ngx-snake';
   styleUrl: './form.component.scss',
 })
 export class FormComponent {
-  @Output() public submit = new EventEmitter<User>();
+  @Output() public userCreated = new EventEmitter<User>();
   @Output() public showSnakeEvent = new EventEmitter<boolean>();
   public name = '';
   public email = '';
@@ -26,16 +26,19 @@ export class FormComponent {
       alert('Invalid e-mail');
       return;
     }
+
     const user = {
       name: this.name,
       email: this.email,
     };
     this.user = user;
+    console.log(JSON.stringify(user.name));
     console.log(`name ${this.name} email ${this.email}`);
     console.log(`user to ${user}`);
     console.log(`this user to ${this.user}`);
     console.log(`... user to ${{ ...user }}`);
-    this.submit.emit(user);
+
+    this.userCreated.emit(user);
     this.openSnake();
     this.name = '';
     this.email = '';

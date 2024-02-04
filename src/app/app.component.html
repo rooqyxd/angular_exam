@@ -1,10 +1,10 @@
 <div class="wrapper">
   <app-form
-    (submit)="onUserCreated($event)"
+    (userCreated)="onUserCreated($event)"
     (showSnakeEvent)="onShowSnake($event)"
   >
   </app-form>
-  <app-snake-containing-component [user]="user" *ngIf="showSnake">
+  <app-snake-containing-component [user]="user" *ngIf="!showSnake">
     ></app-snake-containing-component
   >
 </div>
