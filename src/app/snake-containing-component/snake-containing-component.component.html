@@ -1,6 +1,6 @@
 <div class="wrapper">
   <div class="action-list">
-    <button>Exit game</button>
+    <button (click)="exitGame()">Exit game</button>
     <h2>Action list</h2>
     <div class="labels">
       <label for="">Sort</label>
@@ -11,15 +11,20 @@
       </select>
       <label for="">Filter</label>
       <select name="" id="">
-      <option value="">none</option>
-      <option value="">Game started</option>
-      <option value="">Game paused</option>
-      <option value="">Got 1 point</option>
-      <option value="">Game over</option>
-      <option value="">desc.</option>
-
+        <option value="">none</option>
+        <option value="">Game started</option>
+        <option value="">Game paused</option>
+        <option value="">Got 1 point</option>
+        <option value="">Game over</option>
+        <option value="">desc.</option>
       </select>
+      <p>{{ gameDuration }}</p>
     </div>
+    <ul>
+      <li *ngFor="let move of gameHistory" class="moves">
+        {{ move }}
+      </li>
+    </ul>
   </div>
   <ngx-snake
     #game
@@ -31,8 +36,10 @@
 
   <table class="controls">
     <tr>
-      <td><button (click)="startGame()">Start</button></td>
-      <td><button (click)="onStop()">Stop</button></td>
+      <td>
+        <button (click)="startGame()" [disabled]="isGameOver">Start</button>
+      </td>
+      <td><button (click)="onStop()" [disabled]="isGameOver">Stop</button></td>
       <td><button (click)="onReset()">Reset</button></td>
       <td></td>
     </tr>
@@ -73,10 +80,14 @@
     </tr>
   </table>
   <div class="user-scores">
-    <h2>This game status</h2>
-    <p class="status">{{ gameStatus }}</p>
-    <h2>This game score</h2>
-    <p class="score">{{ points }}</p>
+    <h2>This game stats</h2>
+    <div class="stats">
+      <p class="status">Game status: {{ " " }}{{ gameStatus }}</p>
+      <p class="score">This game score: {{ " " }}{{ points }}</p>
+      <p class="score">
+        This game time in seconds: {{ " " }}{{ gameDuration }}
+      </p>
+    </div>
     <h2>User Highscores</h2>
     <ol>
       <li *ngFor="let score of scores">

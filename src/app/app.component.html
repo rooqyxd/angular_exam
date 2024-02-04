@@ -2,9 +2,14 @@
   <app-form
     (userCreated)="onUserCreated($event)"
     (showSnakeEvent)="onShowSnake($event)"
+    *ngIf="!showSnake"
   >
   </app-form>
-  <app-snake-containing-component [user]="user" *ngIf="!showSnake">
+  <app-snake-containing-component
+    (changeShowSnake)="onShowSnakeChange($event)"
+    [user]="user"
+    *ngIf="showSnake"
+  >
     ></app-snake-containing-component
   >
 </div>

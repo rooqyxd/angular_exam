@@ -31,4 +31,7 @@ export class AppComponent {
     console.log(`w app ${this.user}`);
     console.log(`w app user ${user}`);
   }
+  public onShowSnakeChange(show: boolean) {
+    this.showSnake = show;
+  }
 }

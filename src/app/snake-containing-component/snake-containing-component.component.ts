@@ -1,4 +1,10 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  Input,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { NgxSnakeComponent, NgxSnakeModule } from 'ngx-snake';
 import { HotkeysService } from '@ngneat/hotkeys';
 import { CommonModule } from '@angular/common';
@@ -18,6 +24,7 @@ export class SnakeContainingComponentComponent {
   @ViewChild('game')
   private _snake!: NgxSnakeComponent;
   @Input() user: User | null = null;
+  @Output() changeShowSnake = new EventEmitter<boolean>();
   public points: number = 0;
   public scores: {
     score: number;
@@ -32,6 +39,8 @@ export class SnakeContainingComponentComponent {
   public actualScore: number = 0;
   public gameStatus: string = 'Game not started yet';
   public gameHistory: string[] = [];
+  public isGameActive: boolean = false;
+  public isGameOver: boolean = false;
   public bw = false;
   constructor(private hotkeys: HotkeysService) {
     this._addHotkeys();
@@ -55,8 +64,10 @@ export class SnakeContainingComponentComponent {
     console.log(this.user);
   }
   public startGame() {
-    // console.log(this.user);
-    this.gameHistory = [];
+    this.isGameActive = true;
+    if (this.gameDuration === 0) {
+      this.gameHistory = [];
+    }
     this.gameStatus = 'Game started';
     this._snake.actionStart();
     this.gameStartTime = performance.now();
@@ -65,7 +76,7 @@ export class SnakeContainingComponentComponent {
     this.gameHistory.push(this.gameStatus);
   }
   private updateGameDuration() {
-    if (this.gameStartTime !== null) {
+    if (this.gameStartTime !== null && this.isGameActive) {
       const currentTime = performance.now();
       this.gameDuration = Math.floor((currentTime - this.gameStartTime) / 1000);
       requestAnimationFrame(() => this.updateGameDuration());
@@ -79,6 +90,8 @@ export class SnakeContainingComponentComponent {
   }
 
   public onGameOver() {
+    this.isGameActive = false;
+    this.isGameOver = true;
     if (this.gameStartTime !== null) {
       const currentTime = performance.now();
       this.gameDuration = Math.floor((currentTime - this.gameStartTime) / 1000);
@@ -94,8 +107,10 @@ export class SnakeContainingComponentComponent {
     this.gameHistory.push(this.gameStatus);
     this.scores.push(gameResult);
     this.points = 0;
+    this.gameDuration = 0;
   }
   public onReset() {
+    this.isGameOver = false;
     this.gameStatus = 'Game reseted';
     this.points = 0;
     this.gameDuration = 0;
@@ -103,8 +118,12 @@ export class SnakeContainingComponentComponent {
     this._snake.actionReset();
   }
   public onStop() {
+    this.isGameActive = false;
     this.gameStatus = 'Game stopped';
     this.gameHistory.push(this.gameStatus);
     this._snake.actionStop();
+  }
+  public exitGame() {
+    this.changeShowSnake.emit(false);
   }
 }
