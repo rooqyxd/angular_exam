@@ -11,15 +11,25 @@ import { CommonModule } from '@angular/common';
 import { User } from '../user';
 import { NgClass } from '@angular/common';
 import { FormComponent } from '../form/form.component';
+import { FormsModule } from '@angular/forms';
+import { FilterPipe } from '../filter.pipe';
+import { SortPipe } from '../sort.pipe';
 
 @Component({
   selector: 'app-snake-containing-component',
   standalone: true,
-  imports: [CommonModule, NgxSnakeModule, NgClass, FormComponent],
   providers: [HotkeysService],
-
   templateUrl: './snake-containing-component.component.html',
   styleUrl: './snake-containing-component.component.scss',
+  imports: [
+    CommonModule,
+    NgxSnakeModule,
+    NgClass,
+    FormComponent,
+    FormsModule,
+    FilterPipe,
+    SortPipe,
+  ],
 })
 export class SnakeContainingComponentComponent {
   @ViewChild('game')
@@ -41,8 +51,10 @@ export class SnakeContainingComponentComponent {
   public gameStatus: string = 'Game not started yet';
   public isGameActive: boolean = false;
   public isGameOver: boolean = false;
-  public moveHistory: { move: string; time: number }[] = [];
+  public moveHistory: { moves: string; times: number }[] = [];
   public gameStopTime: number | null = null; //
+  public selectedGameState: string = '';
+  public sortDirection: string = 'asc';
   public bw = false;
   constructor(private hotkeys: HotkeysService) {
     this._addHotkeys();
@@ -79,8 +91,8 @@ export class SnakeContainingComponentComponent {
     this._snake.actionStart();
     this.updateGameDuration();
     this.moveHistory.push({
-      move: 'Game started',
-      time: this.gameDuration,
+      moves: 'Game started',
+      times: this.gameDuration,
     });
   }
   private updateGameDuration() {
@@ -94,8 +106,8 @@ export class SnakeContainingComponentComponent {
     this.actualScore += 1;
     this.points += 1;
     this.moveHistory.push({
-      move: 'Got 1 point',
-      time: this.gameDuration,
+      moves: 'Got 1 point',
+      times: this.gameDuration,
     });
     console.log('grow');
   }
@@ -116,8 +128,8 @@ export class SnakeContainingComponentComponent {
     };
     this.gameStatus = 'Game over';
     this.moveHistory.push({
-      move: 'Game stopped',
-      time: this.gameDuration,
+      moves: 'Game over',
+      times: this.gameDuration,
     });
     this.scores.push(gameResult);
     this.points = 0;
@@ -138,8 +150,8 @@ export class SnakeContainingComponentComponent {
     this.gameStopTime = performance.now();
     this._snake.actionStop();
     this.moveHistory.push({
-      move: 'Game stopped',
-      time: this.gameDuration,
+      moves: 'Game stopped',
+      times: this.gameDuration,
     });
   }
   public exitGame() {

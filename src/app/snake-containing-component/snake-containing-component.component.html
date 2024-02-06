@@ -4,26 +4,29 @@
     <h2>Action list</h2>
     <div class="labels">
       <label for="">Sort</label>
-      <select name="" id="">
-        <option value="">none</option>
-        <option value="">asc.</option>
-        <option value="">desc.</option>
+      <select [(ngModel)]="sortDirection">
+        <option value="asc" >asc.</option>
+        <option value="desc">desc.</option>
       </select>
       <label for="">Filter</label>
-      <select name="" id="">
+      <select [(ngModel)]="selectedGameState">
         <option value="">none</option>
-        <option value="">Game started</option>
-        <option value="">Game paused</option>
-        <option value="">Got 1 point</option>
-        <option value="">Game over</option>
-        <option value="">desc.</option>
+        <option value="Game started">Game started</option>
+        <option value="Game stopped">Game stopped</option>
+        <option value="Got 1 point">Got 1 point</option>
+        <option value="Game over">Game over</option>
       </select>
-      <p>{{ gameDuration }}</p>
     </div>
     <div class="list">
       <ul class="moves">
-        <li *ngFor="let move of moveHistory">
-          {{ move.move }} {{ " at " }} {{ move.time }}sec.
+        <li
+          *ngFor="
+            let move of moveHistory
+              | filter : selectedGameState
+              | sort : sortDirection
+          "
+        >
+          {{ move.moves }} {{ " at " }} {{ move.times }}sec.
         </li>
       </ul>
     </div>
