@@ -14,6 +14,7 @@ import { FormComponent } from '../form/form.component';
 import { FormsModule } from '@angular/forms';
 import { FilterPipe } from '../filter.pipe';
 import { SortPipe } from '../sort.pipe';
+import { SortHighscoresPipe } from '../sort-highscores.pipe';
 
 @Component({
   selector: 'app-snake-containing-component',
@@ -29,6 +30,7 @@ import { SortPipe } from '../sort.pipe';
     FormsModule,
     FilterPipe,
     SortPipe,
+    SortHighscoresPipe,
   ],
 })
 export class SnakeContainingComponentComponent {
@@ -55,6 +57,7 @@ export class SnakeContainingComponentComponent {
   public gameStopTime: number | null = null; //
   public selectedGameState: string = '';
   public sortDirection: string = 'asc';
+  public sortBy: string = 'score';
   public bw = false;
   constructor(private hotkeys: HotkeysService) {
     this._addHotkeys();

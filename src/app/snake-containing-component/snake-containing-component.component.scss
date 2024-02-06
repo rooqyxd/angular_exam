@@ -3,7 +3,6 @@
   display: flex;
   gap: 2em;
   .action-list {
-   
     margin: 0 1em;
     padding: 0 1em;
     display: flex;
@@ -60,4 +59,11 @@ ngx-snake {
   justify-content: flex-start;
   flex-direction: column;
   width: 300px;
+}
+
+.highscores {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
 }
