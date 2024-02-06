@@ -57,7 +57,8 @@ export class SnakeContainingComponentComponent {
   public gameStopTime: number | null = null; //
   public selectedGameState: string = '';
   public sortDirection: string = 'asc';
-  public sortBy: string = 'score';
+  public sortBy: string = '';
+  public sortByAscDesc: string = 'asc';
   public bw = false;
   constructor(private hotkeys: HotkeysService) {
     this._addHotkeys();

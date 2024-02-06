@@ -97,12 +97,19 @@
       <h2>User Highscores</h2>
       <label for="">Sort by</label>
       <select [(ngModel)]="sortBy">
+        <option value=""></option>
         <option value="time">time</option>
         <option value="score">points</option>
       </select>
+      <select [(ngModel)]="sortByAscDesc">
+        <option value="asc">asc.</option>
+        <option value="desc">desc.</option>
+      </select>
     </div>
     <ol>
-      <li *ngFor="let score of scores | sortHighscores : sortBy">
+      <li
+        *ngFor="let score of scores | sortHighscores : sortBy : sortByAscDesc"
+      >
         {{ user?.name }} scored: {{ score.score }} points in {{ score.minutes
         }}{{ " " }}{{ score.seconds }}
       </li>

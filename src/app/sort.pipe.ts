@@ -12,14 +12,15 @@ export class SortPipe implements PipeTransform {
     values: Array<MoveHistory>,
     direction: string = 'asc'
   ): Array<MoveHistory> {
+    let tempValues = values;
     if (!values || values.length <= 1) {
       return values;
     }
 
     if (direction === 'asc') {
-      return values.sort((a, b) => a.times - b.times);
+      return tempValues.sort((a, b) => a.times - b.times);
     } else if (direction === 'desc') {
-      return values.sort((a, b) => b.times - a.times);
+      return tempValues.sort((a, b) => b.times - a.times);
     } else {
       return values;
     }
